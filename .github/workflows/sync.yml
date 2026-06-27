@@ -1,0 +1,58 @@
+name: Sync formula
+
+# Keep Formula/xi.rb in lockstep with the latest code-by-sia/xi release.
+#
+# The xi release workflow can't push here without a cross-repo token, so instead
+# this tap pulls: on a schedule (and on demand) it reads xi's latest release,
+# regenerates the formula from the published tarballs, and commits if it changed.
+# Runs in this repo, so the default GITHUB_TOKEN is enough — no secret to set.
+
+on:
+  schedule:
+    - cron: "7 * * * *"   # hourly — tap is at most ~1h behind a release
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout tap
+        uses: actions/checkout@v4
+
+      - name: Checkout xi (for scripts/update-formula.sh)
+        uses: actions/checkout@v4
+        with:
+          repository: code-by-sia/xi
+          path: xi
+
+      - name: Regenerate formula for the latest release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          TAG="$(gh release view --repo code-by-sia/xi --json tagName --jq .tagName)"
+          VER="${TAG#v}"
+          echo "latest xi release: $TAG"
+          ( cd xi && scripts/update-formula.sh "$VER" )
+          cp xi/packaging/homebrew/xi.rb Formula/xi.rb
+
+      - name: Commit if changed
+        run: |
+          set -euo pipefail
+          git config user.name "xi tap sync"
+          git config user.email "9437465+code-by-sia@users.noreply.github.com"
+          git add Formula/xi.rb
+          if git diff --cached --quiet; then
+            echo "formula already up to date"
+          else
+            VER="$(grep -E '^\s*version ' Formula/xi.rb | head -1 | sed -E 's/.*"([^"]+)".*/\1/')"
+            git commit -m "xi ${VER} (auto-sync)"
+            git push
+          fi
