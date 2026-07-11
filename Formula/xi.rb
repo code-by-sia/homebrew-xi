@@ -10,28 +10,28 @@
 class Xi < Formula
   desc "The Ξ (Xi) programming language toolchain (compiler + REPL)"
   homepage "https://github.com/code-by-sia/xi"
-  version "0.0.95"
+  version "0.0.96"
   license "Apache-2.0"
 
   on_macos do
     on_arm do
-      url "https://github.com/code-by-sia/xi/releases/download/v0.0.95/xi-v0.0.95-macos-arm64.tar.gz"
-      sha256 "bab501772bc40e2c27f94866513e918a32b629570a0335742ea0352b27f9498d"
+      url "https://github.com/code-by-sia/xi/releases/download/v0.0.96/xi-v0.0.96-macos-arm64.tar.gz"
+      sha256 "60726dd8311509b602a11121e3572d8af44f07b1379ca9388957da0d3a8dd547"
     end
     on_intel do
-      url "https://github.com/code-by-sia/xi/releases/download/v0.0.95/xi-v0.0.95-macos-x86_64.tar.gz"
-      sha256 "01d743d9b392c1e24598f25c438b17768ef4b866325915d252c0e434c3de427f"
+      url "https://github.com/code-by-sia/xi/releases/download/v0.0.96/xi-v0.0.96-macos-x86_64.tar.gz"
+      sha256 "c7fc7ac4f1e2be3200711d09a8bfe35bf7feba3060fc2eab685c61c974deb4bb"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/code-by-sia/xi/releases/download/v0.0.95/xi-v0.0.95-linux-arm64.tar.gz"
-      sha256 "f1d7d0c842dd5c8f5d77412357ad158f7606086dbe38769de18965a93bffa39d"
+      url "https://github.com/code-by-sia/xi/releases/download/v0.0.96/xi-v0.0.96-linux-arm64.tar.gz"
+      sha256 "e57b0740ff7e68b74d51c3204527c45a1b711a178838dcf3cee01c53cbc73029"
     end
     on_intel do
-      url "https://github.com/code-by-sia/xi/releases/download/v0.0.95/xi-v0.0.95-linux-x86_64.tar.gz"
-      sha256 "380d8da31f38fe6fe390fe8d2ccf10f8c3d8c6efbf7426c02f59378e63935e51"
+      url "https://github.com/code-by-sia/xi/releases/download/v0.0.96/xi-v0.0.96-linux-x86_64.tar.gz"
+      sha256 "b2facfd172a57ceccc71772632194c04cf9bb51d8b1608c042d32f71dcd6c6bf"
     end
   end
 
